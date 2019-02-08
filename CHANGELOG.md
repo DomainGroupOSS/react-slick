@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+- Updated
+
+  - update README file
+
 ## [0.24.1][] - 2019-02-08
 
 - Added
