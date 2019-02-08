@@ -2,6 +2,12 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+- Added
+
+  - verson-changelog and changelog-verify
+
+## [0.24.0][] - 2019-02-08
+
 - Note
 
   - Project forked by Domain at this point to maintain this codebase.
@@ -129,3 +135,6 @@ Following are the changes to be mentioned:
 - Additional documentation comments added
 - Refactored small snippets for betterment
 - Fixed several lazyload and centerMode bugs
+
+[unreleased]: https://github.com/DomainGroupOSS/react-slick/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.0
