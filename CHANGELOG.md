@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+## [0.24.2][] - 2019-02-08
+
 - Updated
 
   - update README file
@@ -146,3 +148,5 @@ Following are the changes to be mentioned:
 [0.24.0]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.0
 [unreleased]: https://github.com/DomainGroupOSS/react-slick/compare/v0.24.1...HEAD
 [0.24.1]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.1
+[unreleased]: https://github.com/DomainGroupOSS/react-slick/compare/v0.24.2...HEAD
+[0.24.2]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.2
