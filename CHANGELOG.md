@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+## [0.24.1][] - 2019-02-08
+
 - Added
 
   - verson-changelog and changelog-verify
@@ -138,3 +140,5 @@ Following are the changes to be mentioned:
 
 [unreleased]: https://github.com/DomainGroupOSS/react-slick/compare/v0.24.0...HEAD
 [0.24.0]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.0
+[unreleased]: https://github.com/DomainGroupOSS/react-slick/compare/v0.24.1...HEAD
+[0.24.1]: https://github.com/DomainGroupOSS/react-slick/tree/v0.24.1
