@@ -49,6 +49,7 @@ or add cdn link in your html
 ```bash
 npm version patch # or minor, major etc
 npm publish
+git push origin --follow-tags master
 ```
 
 ### [PlayGround](https://codesandbox.io/s/ppwkk5l6xx)
