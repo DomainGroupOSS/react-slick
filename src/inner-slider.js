@@ -97,6 +97,11 @@ export class InnerSlider extends React.Component {
         slide.onblur = this.props.pauseOnFocus ? this.onSlideBlur : null;
       }
     );
+
+    if (this.props.touchMove) {
+      this.list.addEventListener("touchmove", this.swipeMove);
+    }
+
     // To support server-side rendering
     if (!window) {
       return;
@@ -167,7 +172,7 @@ export class InnerSlider extends React.Component {
       }
     });
   };
-  componentDidUpdate = () => {
+  componentDidUpdate = prevProps => {
     this.checkImagesLoad();
     this.props.onReInit && this.props.onReInit();
     if (this.props.lazyLoad) {
@@ -188,6 +193,11 @@ export class InnerSlider extends React.Component {
     //   this.props.onLazyLoad([leftMostSlide])
     // }
     this.adaptHeight();
+
+    if (prevProps.touchMove !== this.props.touchMove) {
+      const method = this.props.touchMove ? "add" : "remove";
+      this.list[`${method}EventListener`]("touchmove", this.swipeMove);
+    }
   };
   onWindowResized = setTrackStyle => {
     if (this.debouncedResize) this.debouncedResize.cancel();
@@ -704,7 +714,6 @@ export class InnerSlider extends React.Component {
       onMouseUp: touchMove ? this.swipeEnd : null,
       onMouseLeave: this.state.dragging && touchMove ? this.swipeEnd : null,
       onTouchStart: touchMove ? this.swipeStart : null,
-      onTouchMove: this.state.dragging && touchMove ? this.swipeMove : null,
       onTouchEnd: touchMove ? this.swipeEnd : null,
       onTouchCancel: this.state.dragging && touchMove ? this.swipeEnd : null,
       onKeyDown: this.props.accessibility ? this.keyHandler : null
