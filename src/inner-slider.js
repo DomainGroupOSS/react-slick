@@ -127,6 +127,11 @@ export class InnerSlider extends React.Component {
       this.callbackTimers.forEach(timer => clearTimeout(timer));
       this.callbackTimers = [];
     }
+    if(this.props.touchMove) {
+      this.list.removeEventListener("touchmove", this.swipeMove, {
+        passive: false
+      });
+    }
     if (window.addEventListener) {
       window.removeEventListener("resize", this.onWindowResized);
     } else {
