@@ -99,7 +99,11 @@ export class InnerSlider extends React.Component {
     );
 
     if (this.props.touchMove) {
-      this.list.addEventListener("touchmove", this.swipeMove);
+      // swipeMove calls preventDefault which only has an effect on non-passive events
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+      this.list.addEventListener("touchmove", this.swipeMove, {
+        passive: false
+      });
     }
 
     // To support server-side rendering
@@ -196,7 +200,11 @@ export class InnerSlider extends React.Component {
 
     if (prevProps.touchMove !== this.props.touchMove) {
       const method = this.props.touchMove ? "add" : "remove";
-      this.list[`${method}EventListener`]("touchmove", this.swipeMove);
+      // swipeMove calls preventDefault which only has an effect on non-passive events
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+      this.list[`${method}EventListener`]("touchmove", this.swipeMove, {
+        passive: false
+      });
     }
   };
   onWindowResized = setTrackStyle => {
@@ -286,15 +294,15 @@ export class InnerSlider extends React.Component {
     let childrenCount = React.Children.count(this.props.children);
     const spec = { ...this.props, ...this.state, slideCount: childrenCount };
     let slideCount = getPreClones(spec) + getPostClones(spec) + childrenCount;
-    let trackWidth = 100 / this.props.slidesToShow * slideCount;
+    let trackWidth = (100 / this.props.slidesToShow) * slideCount;
     let slideWidth = 100 / slideCount;
     let trackLeft =
-      -slideWidth *
-      (getPreClones(spec) + this.state.currentSlide) *
-      trackWidth /
+      (-slideWidth *
+        (getPreClones(spec) + this.state.currentSlide) *
+        trackWidth) /
       100;
     if (this.props.centerMode) {
-      trackLeft += (100 - slideWidth * trackWidth / 100) / 2;
+      trackLeft += (100 - (slideWidth * trackWidth) / 100) / 2;
     }
     let trackStyle = {
       width: trackWidth + "%",
