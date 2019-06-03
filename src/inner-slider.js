@@ -97,6 +97,15 @@ export class InnerSlider extends React.Component {
         slide.onblur = this.props.pauseOnFocus ? this.onSlideBlur : null;
       }
     );
+
+    if (this.props.touchMove) {
+      // swipeMove calls preventDefault which only has an effect on non-passive events
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+      this.list.addEventListener("touchmove", this.swipeMove, {
+        passive: false
+      });
+    }
+
     // To support server-side rendering
     if (!window) {
       return;
@@ -117,6 +126,11 @@ export class InnerSlider extends React.Component {
     if (this.callbackTimers.length) {
       this.callbackTimers.forEach(timer => clearTimeout(timer));
       this.callbackTimers = [];
+    }
+    if(this.props.touchMove) {
+      this.list.removeEventListener("touchmove", this.swipeMove, {
+        passive: false
+      });
     }
     if (window.addEventListener) {
       window.removeEventListener("resize", this.onWindowResized);
@@ -167,7 +181,7 @@ export class InnerSlider extends React.Component {
       }
     });
   };
-  componentDidUpdate = () => {
+  componentDidUpdate = prevProps => {
     this.checkImagesLoad();
     this.props.onReInit && this.props.onReInit();
     if (this.props.lazyLoad) {
@@ -188,6 +202,15 @@ export class InnerSlider extends React.Component {
     //   this.props.onLazyLoad([leftMostSlide])
     // }
     this.adaptHeight();
+
+    if (prevProps.touchMove !== this.props.touchMove) {
+      const method = this.props.touchMove ? "add" : "remove";
+      // swipeMove calls preventDefault which only has an effect on non-passive events
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+      this.list[`${method}EventListener`]("touchmove", this.swipeMove, {
+        passive: false
+      });
+    }
   };
   onWindowResized = setTrackStyle => {
     if (this.debouncedResize) this.debouncedResize.cancel();
@@ -276,15 +299,15 @@ export class InnerSlider extends React.Component {
     let childrenCount = React.Children.count(this.props.children);
     const spec = { ...this.props, ...this.state, slideCount: childrenCount };
     let slideCount = getPreClones(spec) + getPostClones(spec) + childrenCount;
-    let trackWidth = 100 / this.props.slidesToShow * slideCount;
+    let trackWidth = (100 / this.props.slidesToShow) * slideCount;
     let slideWidth = 100 / slideCount;
     let trackLeft =
-      -slideWidth *
-      (getPreClones(spec) + this.state.currentSlide) *
-      trackWidth /
+      (-slideWidth *
+        (getPreClones(spec) + this.state.currentSlide) *
+        trackWidth) /
       100;
     if (this.props.centerMode) {
-      trackLeft += (100 - slideWidth * trackWidth / 100) / 2;
+      trackLeft += (100 - (slideWidth * trackWidth) / 100) / 2;
     }
     let trackStyle = {
       width: trackWidth + "%",
@@ -704,7 +727,6 @@ export class InnerSlider extends React.Component {
       onMouseUp: touchMove ? this.swipeEnd : null,
       onMouseLeave: this.state.dragging && touchMove ? this.swipeEnd : null,
       onTouchStart: touchMove ? this.swipeStart : null,
-      onTouchMove: this.state.dragging && touchMove ? this.swipeMove : null,
       onTouchEnd: touchMove ? this.swipeEnd : null,
       onTouchCancel: this.state.dragging && touchMove ? this.swipeEnd : null,
       onKeyDown: this.props.accessibility ? this.keyHandler : null

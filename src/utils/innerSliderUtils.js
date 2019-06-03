@@ -331,6 +331,7 @@ export const swipeMove = (e, spec) => {
   const {
     scrolling,
     animating,
+    dragging,
     vertical,
     swipeToSlide,
     verticalSwiping,
@@ -349,7 +350,7 @@ export const swipeMove = (e, spec) => {
     listHeight,
     listWidth
   } = spec;
-  if (scrolling) return;
+  if (scrolling || !dragging) return;
   if (animating) return e.preventDefault();
   if (vertical && swipeToSlide && verticalSwiping) e.preventDefault();
   let swipeLeft,
