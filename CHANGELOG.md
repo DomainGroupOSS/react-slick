@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+### Fixed
+- change touchmove event to a non-passive event to allow preventDefault
+- fixes vertical scroll whilst horizontal swiping bug
+
 ## [0.24.2][] - 2019-02-08
 
 - Updated
