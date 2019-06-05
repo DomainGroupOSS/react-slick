@@ -13,6 +13,7 @@
     "prepublish": "babel ./src --out-dir ./lib && gulp dist",
     "test": "npm run lint && jest",
     "test:watch": "jest --watch",
+    "update-snapshots": "jest --updateSnapshot",
     "lint": "eslint src",
     "gen": "node examples/scripts/generateExampleConfigs.js && node examples/scripts/generateExamples.js && xdg-open docs/jquery.html",
     "precommit": "lint-staged",
