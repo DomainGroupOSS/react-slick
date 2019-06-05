@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
+### Fixed
+- Fix issue preventing the first tap after a swipe from being propagated
 
 ## [0.24.3][] - 2019-06-03
 
