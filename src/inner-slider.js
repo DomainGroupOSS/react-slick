@@ -127,7 +127,10 @@ export class InnerSlider extends React.Component {
       this.callbackTimers.forEach(timer => clearTimeout(timer));
       this.callbackTimers = [];
     }
-    if(this.props.touchMove) {
+    if (this.unblockClickableTimer) {
+      clearTimeout(this.unblockClickableTimer);
+    }
+    if (this.props.touchMove) {
       this.list.removeEventListener("touchmove", this.swipeMove, {
         passive: false
       });
@@ -287,9 +290,7 @@ export class InnerSlider extends React.Component {
       };
       if (this.props.centerMode) {
         let currentWidth = `${childrenWidths[this.state.currentSlide]}px`;
-        trackStyle.left = `calc(${
-          trackStyle.left
-        } + (100% - ${currentWidth}) / 2 ) `;
+        trackStyle.left = `calc(${trackStyle.left} + (100% - ${currentWidth}) / 2 ) `;
       }
       this.setState({
         trackStyle
@@ -498,6 +499,9 @@ export class InnerSlider extends React.Component {
     let triggerSlideHandler = state["triggerSlideHandler"];
     delete state["triggerSlideHandler"];
     this.setState(state);
+    this.unblockClickableTimer = setTimeout(() => {
+      this.clickable = true;
+    }, this.props.speed);
     if (triggerSlideHandler === undefined) return;
     this.slideHandler(triggerSlideHandler);
     if (this.props.verticalSwiping) {
