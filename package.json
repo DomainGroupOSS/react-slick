@@ -9,8 +9,11 @@
   ],
   "scripts": {
     "start": "gulp server",
-    "build": "gulp clean && gulp sass && gulp copy && webpack",
-    "prepublish": "babel ./src --out-dir ./lib && gulp dist",
+    "demo": "SINGLE_DEMO=true gulp server",
+    "build-dev": "gulp clean && gulp sass && gulp copy && webpack",
+    "lib": "babel ./src --out-dir ./lib",
+    "build": "npm run lib && gulp dist",
+    "prepublish": "npm run build",
     "test": "npm run lint && jest",
     "test:watch": "jest --watch",
     "update-snapshots": "jest --updateSnapshot",
@@ -95,8 +98,8 @@
     "resize-observer-polyfill": "^1.5.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.1 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.1 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0",
+    "react-dom": "^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0"
   },
   "jest": {
     "setupFiles": [
@@ -125,7 +128,7 @@
   "bugs": {
     "url": "https://github.com/akiran/react-slick/issues"
   },
-  "homepage": "https://github.com/akiran/react-slick",
+  "homepage": "https://react-slick.neostack.com",
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/react-slick",
