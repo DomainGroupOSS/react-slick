@@ -25,7 +25,7 @@ export default class Slider extends React.Component {
   }
 
   // handles responsive breakpoints
-  componentWillMount() {
+  componentDidMount() {
     // performance monitoring
     //if (process.env.NODE_ENV !== 'production') {
     //const { whyDidYouUpdate } = require('why-did-you-update')
@@ -106,9 +106,7 @@ export default class Slider extends React.Component {
         process.env.NODE_ENV !== "production"
       ) {
         console.warn(
-          `slidesToScroll should be equal to 1 in centerMode, you are using ${
-            settings.slidesToScroll
-          }`
+          `slidesToScroll should be equal to 1 in centerMode, you are using ${settings.slidesToScroll}`
         );
       }
       settings.slidesToScroll = 1;
@@ -117,9 +115,7 @@ export default class Slider extends React.Component {
     if (settings.fade) {
       if (settings.slidesToShow > 1 && process.env.NODE_ENV !== "production") {
         console.warn(
-          `slidesToShow should be equal to 1 when fade is true, you're using ${
-            settings.slidesToShow
-          }`
+          `slidesToShow should be equal to 1 when fade is true, you're using ${settings.slidesToShow}`
         );
       }
       if (
@@ -127,9 +123,7 @@ export default class Slider extends React.Component {
         process.env.NODE_ENV !== "production"
       ) {
         console.warn(
-          `slidesToScroll should be equal to 1 when fade is true, you're using ${
-            settings.slidesToScroll
-          }`
+          `slidesToScroll should be equal to 1 when fade is true, you're using ${settings.slidesToScroll}`
         );
       }
       settings.slidesToShow = 1;
@@ -203,12 +197,16 @@ export default class Slider extends React.Component {
 
     if (settings === "unslick") {
       const className = "regular slider " + (this.props.className || "");
-      return <div className={className}>{newChildren}</div>;
+      return <div className={className}>{children}</div>;
     } else if (newChildren.length <= settings.slidesToShow) {
       settings.unslick = true;
     }
     return (
-      <InnerSlider ref={this.innerSliderRefHandler} {...settings}>
+      <InnerSlider
+        style={this.props.style}
+        ref={this.innerSliderRefHandler}
+        {...settings}
+      >
         {newChildren}
       </InnerSlider>
     );
