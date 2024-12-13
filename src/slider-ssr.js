@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, forwardRef } from "react";
 import SlickSlider from "./slider";
 
-class Slider extends Component {
+class SliderInner extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +21,7 @@ class Slider extends Component {
       <SlickSlider
         key={isClient ? "client" : "server"}
         responsive={isClient ? responsive : null}
+        ref={this.props.innerRef}
         {...rest}
       >
         {children}
@@ -28,5 +29,9 @@ class Slider extends Component {
     );
   }
 }
+
+const Slider = forwardRef((props, ref) => (
+  <SliderInner {...props} innerRef={ref} />
+));
 
 export default Slider;
