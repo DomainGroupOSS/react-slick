@@ -6,7 +6,7 @@ import Slider from "../src/index";
 
 describe("Slider", function() {
   it("should render", function() {
-    const wrapper = shallow(
+    const wrapper = mount(
       <Slider>
         <div>slide1</div>
       </Slider>

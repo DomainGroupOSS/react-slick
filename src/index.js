@@ -1,3 +1,3 @@
-import Slider from "./slider";
+import Slider from "./slider-ssr";
 
 export default Slider;
