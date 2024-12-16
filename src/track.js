@@ -9,9 +9,9 @@ import {
 } from "./utils/innerSliderUtils";
 
 // given specifications/props for a slide, fetch all the classes that need to be applied to the slide
-var getSlideClasses = spec => {
-  var slickActive, slickCenter, slickCloned;
-  var centerOffset, index;
+const getSlideClasses = spec => {
+  let slickActive, slickCenter, slickCloned;
+  let centerOffset, index;
 
   if (spec.rtl) {
     index = spec.slideCount - 1 - spec.index;
@@ -33,7 +33,16 @@ var getSlideClasses = spec => {
       spec.currentSlide <= index &&
       index < spec.currentSlide + spec.slidesToShow;
   }
-  let slickCurrent = index === spec.currentSlide;
+
+  let focusedSlide;
+  if (spec.targetSlide < 0) {
+    focusedSlide = spec.targetSlide + spec.slideCount;
+  } else if (spec.targetSlide >= spec.slideCount) {
+    focusedSlide = spec.targetSlide - spec.slideCount;
+  } else {
+    focusedSlide = spec.targetSlide;
+  }
+  let slickCurrent = index === focusedSlide;
   return {
     "slick-slide": true,
     "slick-active": slickActive,
@@ -43,8 +52,8 @@ var getSlideClasses = spec => {
   };
 };
 
-var getSlideStyle = function(spec) {
-  var style = {};
+const getSlideStyle = spec => {
+  let style = {};
 
   if (spec.variableWidth === undefined || spec.variableWidth === false) {
     style.width = spec.slideWidth;
@@ -58,26 +67,18 @@ var getSlideStyle = function(spec) {
       style.left = -spec.index * parseInt(spec.slideWidth);
     }
     style.opacity = spec.currentSlide === spec.index ? 1 : 0;
-    style.transition =
-      "opacity " +
-      spec.speed +
-      "ms " +
-      spec.cssEase +
-      ", " +
-      "visibility " +
-      spec.speed +
-      "ms " +
-      spec.cssEase;
-    style.WebkitTransition =
-      "opacity " +
-      spec.speed +
-      "ms " +
-      spec.cssEase +
-      ", " +
-      "visibility " +
-      spec.speed +
-      "ms " +
-      spec.cssEase;
+    if (spec.useCSS) {
+      style.transition =
+        "opacity " +
+        spec.speed +
+        "ms " +
+        spec.cssEase +
+        ", " +
+        "visibility " +
+        spec.speed +
+        "ms " +
+        spec.cssEase;
+    }
   }
 
   return style;
@@ -85,18 +86,18 @@ var getSlideStyle = function(spec) {
 
 const getKey = (child, fallbackKey) => child.key || fallbackKey;
 
-var renderSlides = function(spec) {
-  var key;
-  var slides = [];
-  var preCloneSlides = [];
-  var postCloneSlides = [];
-  var childrenCount = React.Children.count(spec.children);
+const renderSlides = spec => {
+  let key;
+  let slides = [];
+  let preCloneSlides = [];
+  let postCloneSlides = [];
+  let childrenCount = React.Children.count(spec.children);
   let startIndex = lazyStartIndex(spec);
   let endIndex = lazyEndIndex(spec);
 
   React.Children.forEach(spec.children, (elem, index) => {
     let child;
-    var childOnClickOptions = {
+    let childOnClickOptions = {
       message: "children",
       index: index,
       slidesToScroll: spec.slidesToScroll,
@@ -112,8 +113,8 @@ var renderSlides = function(spec) {
     } else {
       child = <div />;
     }
-    var childStyle = getSlideStyle({ ...spec, index });
-    const slideClass = child.props.className || "";
+    let childStyle = getSlideStyle({ ...spec, index });
+    let slideClass = child.props.className || "";
     let slideClasses = getSlideClasses({ ...spec, index });
     // push a cloned element of the desired slide
     slides.push(
@@ -197,12 +198,19 @@ var renderSlides = function(spec) {
 };
 
 export class Track extends React.PureComponent {
+  node = null;
+
+  handleRef = ref => {
+    this.node = ref;
+  };
+
   render() {
     const slides = renderSlides(this.props);
     const { onMouseEnter, onMouseOver, onMouseLeave } = this.props;
     const mouseEvents = { onMouseEnter, onMouseOver, onMouseLeave };
     return (
       <div
+        ref={this.handleRef}
         className="slick-track"
         style={this.props.trackStyle}
         {...mouseEvents}
