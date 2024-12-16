@@ -2,11 +2,17 @@
 
 ## [Unreleased](https://github.com/DomainGroupOSS/react-slick/tree/HEAD)
 
+## [0.24.6][] - 2024-12-16
+
+### Fixed
+
+- Fixed an SSR mismatch in responsive mode.
+
 ## [0.24.5][] - 2019-06-12
 
-- Fixed
+### Fixed
 
-  - Moved restoration of clickable flag from animation cooldown timer into another separate timer (AH-4429)
+- Moved restoration of clickable flag from animation cooldown timer into another separate timer (AH-4429)
 
 ## [0.24.4][] - 2019-06-05
 
